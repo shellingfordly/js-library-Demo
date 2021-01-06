@@ -243,3 +243,6 @@ const router = new VueRouter({
     - 逻辑复用
 
 ### 虚拟DOM重写
+
+### 插槽
+

@@ -249,3 +249,7 @@ export function addAsyncAtion (value) {
   }
 }
 ```
+
+## 高阶组件
+
+- 
