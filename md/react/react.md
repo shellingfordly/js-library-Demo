@@ -14,22 +14,22 @@
 
 ```js
 this.setState({
-    count: this.state.count+1
-})
+  count: this.state.count + 1,
+});
 this.setState({
-    count: this.state.count+1
-})
+  count: this.state.count + 1,
+});
 ```
 
 - 每次获取到的都是最新值
 
 ```js
-this.setState(state=>{
-    return {count: state.count+1}
-})
-this.setState(state=>{
-    return {count: state.count+1}
-})
+this.setState((state) => {
+  return { count: state.count + 1 };
+});
+this.setState((state) => {
+  return { count: state.count + 1 };
+});
 ```
 
 - 改变的属性和改变前没有关系则使用对象，有关系则使用函数形式更好
@@ -40,12 +40,11 @@ this.setState(state=>{
 
 2. setState()的第二个参数为可选的回调函数，它将在 setState 完成合并并重新渲染组件后执行。通常，我们建议使用 componentDidUpdate() 来代替此方式。
 
-- 在原生的事件函数/Promise/setTimeOut中，setState是同步的，并且不会合并处理
+- 在原生的事件函数/Promise/setTimeOut 中，setState 是同步的，并且不会合并处理
 
 ## key
 
-- 没有key值时将会原地复用
--<span style="color: red">vue有没有这个问题？</span>
+- 没有 key 值时将会原地复用 -<span style="color: red">vue 有没有这个问题？</span>
 
 ## 组件通信
 
@@ -66,7 +65,7 @@ class Parent extends React.Component{
 
 class Son extends React.Component{
     state = { msg: '子组件数据' }
-    
+
     sendmsg = ()=>{
         // 子穿父
         this.props.xxx(this.state.msg)
@@ -127,7 +126,7 @@ class Son2 extends React.Component{
 - onExiting 退场中触发回调
 - onExited 退场结束时触发回调
 
-### css类名
+### css 类名
 
 - .enter 动画刚入场时
 - .enter-active 动画入场中
@@ -140,8 +139,8 @@ class Son2 extends React.Component{
 
 ```jsx
 <TransitionGroup>
-    <CSSTransition></CSSTransition>
-    <CSSTransition></CSSTransition>
+  <CSSTransition></CSSTransition>
+  <CSSTransition></CSSTransition>
 </TransitionGroup>
 ```
 
@@ -149,15 +148,15 @@ class Son2 extends React.Component{
 
 ## 路由
 
-- 路由组件中的props下存在的属性
+- 路由组件中的 props 下存在的属性
   - history 存放跳转路径的方法
   - location 存放数据
   - match 解析路径得到的数据
 
-### NavLink和Route
+### NavLink 和 Route
 
 - 默认是模糊匹配
-- 加上exact精准匹配
+- 加上 exact 精准匹配
 
 ```jsx
 <NavLink to='/home'>首页</NavLink>
@@ -166,7 +165,7 @@ class Son2 extends React.Component{
 <Route path="/" component={Root}></Route>
 ```
 
-- Switch中的Route都是精准匹配
+- Switch 中的 Route 都是精准匹配
 - '/home'将无法匹配到'/'
 
 ```jsx
@@ -180,7 +179,7 @@ class Son2 extends React.Component{
 ### Redirect
 
 - 路径的重定向
-- 当前路径匹配不到时走Redirect设置的路径
+- 当前路径匹配不到时走 Redirect 设置的路径
 
 ```jsx
 <NavLink to='/home'>首页</NavLink>
@@ -197,15 +196,15 @@ class Son2 extends React.Component{
 - this.props.history.replace
 - goForward 前进到回到刚才回退前的路径
 - goBack 返回历史记录中的上一个路径
-- go(num) 前进num次回退历史记录的路径
+- go(num) 前进 num 次回退历史记录的路径
 
 #### push
 
-push跳转路径是在原来的历史记录中叠加，回退时能回到push前的路径
+push 跳转路径是在原来的历史记录中叠加，回退时能回到 push 前的路径
 
 #### replace
 
-replace跳转路径是替换当前的路径，上一次的路径直接被覆盖，无法回退到replac前的路径
+replace 跳转路径是替换当前的路径，上一次的路径直接被覆盖，无法回退到 replac 前的路径
 
 ## Redux
 
@@ -215,10 +214,10 @@ replace跳转路径是替换当前的路径，上一次的路径直接被覆盖�
   - thunk 异步处理事件
 
 ```js
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import reducer from './reducer'
-export default createStore(reducer, applyMiddleware(thunk))
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import reducer from "./reducer";
+export default createStore(reducer, applyMiddleware(thunk));
 ```
 
 - reducer.js
@@ -236,7 +235,7 @@ export default function (state = 0, action){
   - dispatch 发起动作
   - 同步动作返回对象
   - 异步动作返回函数
-    - dispatch为thunk中间件默认传入
+    - dispatch 为 thunk 中间件默认传入
     - 在返回的函数中做异步请求
 
 ```js
@@ -250,6 +249,207 @@ export function addAsyncAtion (value) {
 }
 ```
 
+## react-redux
+
+- reducer.js 返回多个 reducer
+
+```js
+import { combineReducers } from "redux";
+function number(state = 0, action) {
+  return state;
+}
+function sum(state = 0, action) {
+  return state;
+}
+export default combineReducers({
+  number,
+  sum,
+});
+```
+
+- 组件中接收
+
+```js
+export default connect(
+  (state) => ({
+    number,
+    sum,
+  }),
+  {
+    addFn,
+    deleteFn,
+  }
+)(App);
+```
+
 ## 高阶组件
 
-- 
+- 接收一个组件，返回一个处理后的组件
+
+```jsx
+function HighComponent(BaseComponent) {
+  return class extends Component {
+    state = { value: "" };
+    handleChange = (e) => {
+      this.setState({ value: e.target.value });
+    };
+    render() {
+      const props = {
+        value: this.state.value,
+        onChange: this.handleChange,
+        ...this.props, // 将创建的组件的属性传递到Base组件中
+      };
+      return <BaseComponent {...props} />;
+    }
+  };
+}
+function Demo() {
+  return <input type="text" {...this.props} />;
+}
+const Test = HighComponent(Demo);
+<Test data={data} />;
+```
+
+### 反向继承
+
+```jsx
+class BaseComponent extends Component {
+  state = {
+    value: "基础组件的默认数据",
+  };
+  render() {
+    return <div>{this.state.value}</div>;
+  }
+}
+
+function ReverseInheritance() {
+  return class extends BaseComponent {
+    render() {
+      // 返回父组件的render函数执行结果
+      return super.render();
+    }
+  };
+}
+
+const Demo = ReverseInheritance();
+```
+
+## Hook 函数
+
+### useState
+
+- useState 的顺序不能改变，否则会报错
+
+```jsx
+import { useState } from "react";
+function User() {
+  const [value, setValue] = useState("hook数据");
+  const [value1, setValue1] = useState("hook数据1");
+  function hanldeClick() {
+    setValue("修改hook数据");
+  }
+
+  return (
+    <div>
+      <h1>User</h1>
+      <p>{value}</p>
+      <button onClick={hanldeClick}>修改value</button>
+    </div>
+  );
+}
+```
+
+### useRef
+
+- 创建标记对象
+
+### useEffect(()=>{ return }, [])
+
+- 合并了类组件的生命周期函数
+- 当 render 渲染之后执行，dom 已经生成，此时执行时间时间类似 componentDidMount
+- 数据变化时，先执行 useEffect 的回调函数，在执行 render 渲染，此时执行时间类似 componentDidUpdate
+- 第一次进入组件的时候就会执行
+- 做数据处理和操作 DOM 元素
+
+- 返回函数，作用类似 componentDidUnmount
+  - 返回的函数会先于useEffect的回调函数执行，清除定时器
+  - 不过现在即使不写返回函数清除定时器，也不会出现颜色一直变的问题，可能是react的useEffect内部做了处理？
+
+```jsx
+import { useState, useEffect } from "react";
+function About() {
+  const [background, setColor] = useState("red");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const color = "#" + Math.random().toString(16).slice(2, 8);
+      setColor(color);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  });
+  return <div style={{ width: 100, height: 100, background }}></div>;
+}
+```
+
+- 第二个参数 数组
+  - 限制useEffect执行的时机
+  - 当传递的数据变化时，执行useEffect，若没有，则不执行
+  - 传空数组，useEffect的回调只会执行一次，因为没有关联改变的数据去触发它，此时相当于componentDidMount钩子
+
+```jsx
+import { useState, useEffect } from "react";
+function About() {
+  const [background, setColor] = useState("red");
+  useEffect(() => {
+    setTimeout(() => {
+      const color = "#" + Math.random().toString(16).slice(2, 8);
+      setColor(color);
+    }, 1000);
+  }, []);
+  return <div style={{ width: 100, height: 100, background }}></div>;
+}
+```
+
+### useReeducer(reducer, state)
+
+- reducer函数不会初始化
+
+```jsx
+import {  useReducer } from 'react'
+const state = 0
+function reducer(state, action) {
+  switch (action.type) {
+    case 'add':
+      return state + action.data
+    case 'minus':
+      return state - action.data
+  }
+}
+export default function SetTimeout() {
+  const [count, dispatch] = useReducer(reducer,state)
+  function add(){
+    dispatch({type: 'add', data: 1})
+  }
+  function minus(){
+    dispatch({type: 'minus', data: 1})
+  }
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={add}>add</button>
+      <button onClick={minus}>minus</button>
+    </div>
+  );
+}
+```
+
+### 自定义 hook 函数
+
+## 上下文
+
+### createContext()
+
+- 创建上下文对象
+
+### useContext
