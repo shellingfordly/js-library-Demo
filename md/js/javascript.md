@@ -8,6 +8,17 @@
 - Object.getOwnPropertyDescriptor(obj, key) 获取对象指定属性的特性
 - Object.getOwnPropertyDescriptors(obj, key) 获取对象所有属性的特性
 
+### 结构
+
+- 嵌套结构
+- 部分解构
+- 参数上下文匹配
+
+### 创建对象
+
+- 工厂模式
+- 构造函数模式S
+
 ### 构造函数模式
 
 - person1.\_\_proto\_\_ 就是 Person.prototype

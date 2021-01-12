@@ -156,3 +156,120 @@ module.exports = {
     })
   ]
 ```
+
+### webpack-dev-server
+
+想要配置 proxy 代理需要安装 webpack-dev-server
+
+- 命令 npxw webpack-dev-server
+
+  - 开启端口可以自动访问同级目录下的资源
+
+- 配置
+
+```js
+module.exports = {
+  devServer: {
+    open: true, // 是否打开浏览器
+    port: 5000, // 端口
+    contentBase: "./dist", // 修改可访问的文件路径
+    proxy: {
+      // 代理所有当前路径向/api的请求，将其转发到另一个路径
+      "/api": {
+        target: "https://xxx.xxx.xxx:0000", // 转发地址
+        pathRewrite: { "/api": "" }, // 路径重写
+      },
+      "/api1": "https://xxx.xxx.xxx:1111",
+    },
+  },
+};
+```
+
+- before 前端 mock 假数据
+
+```js
+module.exports = {
+  devServer: {
+    open: true,
+    port: 5000,
+    contentBase: './dist',
+    before(app){
+      app.get('/api/user', (req,res)=>{
+        res.send({name: 'user'})
+      })
+    }
+}
+```
+
+- webpack-dev-server 运行遇到的问题
+
+```cmd
+Cannot find module 'webpack-cli/bin/config-yargs'
+可能是webpack和webpack-dev-server版本不兼容
+webpack@3.8.0 和 webpack-dev-server@2.9.7可以兼容
+```
+
+### webpack-dev-middleware
+
+- 在 node 中启动 webpack 打包
+
+```js
+const express = require("express");
+const webpack = require("webpack");
+const middleware = require("webpack-dev-middleware");
+
+// 导入webpack配置
+const config = require("./webpack.config.js");
+const compiler = webpack(config);
+
+const app = express();
+
+// 使用webpack编译器配置
+app.use(middleware(compiler));
+
+app.get("/api/user", (req, res) => {
+  res.send({ name: "user" });
+});
+
+app.listen(3000, () => {
+  console.log("3000 port opened");
+});
+```
+
+## 打包vue
+
+- 配置文件
+
+```js
+module.exports = {
+  resolve: {
+    alias: { // 配置引入包的路径
+      // 引入vue包时导入有template complier的包
+      'vue$': 'vue/dist/vue.esm.js'
+    }
+  }
+}
+
+```
+
+## 问题
+
+### webpack 问题
+
+- webpack@3.8.0 和 webpack-dev-server@2.9.7可以兼容，但是和html-webpack-plugin@4.5.1不兼容
+- 使用老版本的 webpack 不支持 mode 属性
+
+```npm
+configuration has an unknown property 'mode'.
+```
+
+- 使用最新版找不到包
+
+```npm
+{
+  "webpack": "^5.13.0",
+  "webpack-cli": "^4.3.1",
+  "webpack-dev-server": "^3.11.1"
+}
+error: Cannot find module 'webpack-cli/bin/config-yargs'
+```
