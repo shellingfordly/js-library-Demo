@@ -2,7 +2,7 @@
 import './App.scss'
 import { Component } from 'react'
 import { NavLink, Route, Switch, Redirect } from 'react-router-dom'
-import Home from './views/Home'
+import Home from './views/home/Home'
 import About from './views/About'
 import Register from './views/Register'
 import User from './views/User'
@@ -19,7 +19,6 @@ export default class App extends Component {
   componentDidMount(){
     store.subscribe(() => {
       const data = store.getState()
-      console.log(data.isLogin);
       this.setState({ isShow: data.isLogin })
     })
   }

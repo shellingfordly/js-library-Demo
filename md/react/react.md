@@ -310,6 +310,29 @@ const Test = HighComponent(Demo);
 <Test data={data} />;
 ```
 
+- 函数组件写法
+- 使用装饰器写法
+
+```jsx
+function HighComponent(BaseComponent) {
+  return function (props) {
+    return (
+      <div>
+        <p>高阶组件装饰</p>
+        <BaseComponent {...props} />
+      </div>
+    );
+  };
+}
+@HighComponent
+class Demo extends Component {
+  render() {
+    return <div>{this.props.data}</div>;
+  }
+}
+<Demo data={data} />;
+```
+
 ### 反向继承
 
 ```jsx
@@ -372,8 +395,8 @@ function User() {
 - 做数据处理和操作 DOM 元素
 
 - 返回函数，作用类似 componentDidUnmount
-  - 返回的函数会先于useEffect的回调函数执行，清除定时器
-  - 不过现在即使不写返回函数清除定时器，也不会出现颜色一直变的问题，可能是react的useEffect内部做了处理？
+  - 返回的函数会先于 useEffect 的回调函数执行，清除定时器
+  - 不过现在即使不写返回函数清除定时器，也不会出现颜色一直变的问题，可能是 react 的 useEffect 内部做了处理？
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -393,9 +416,9 @@ function About() {
 ```
 
 - 第二个参数 数组
-  - 限制useEffect执行的时机
-  - 当传递的数据变化时，执行useEffect，若没有，则不执行
-  - 传空数组，useEffect的回调只会执行一次，因为没有关联改变的数据去触发它，此时相当于componentDidMount钩子
+  - 限制 useEffect 执行的时机
+  - 当传递的数据变化时，执行 useEffect，若没有，则不执行
+  - 传空数组，useEffect 的回调只会执行一次，因为没有关联改变的数据去触发它，此时相当于 componentDidMount 钩子
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -413,26 +436,26 @@ function About() {
 
 ### useReeducer(reducer, state)
 
-- reducer函数不会初始化
+- reducer 函数不会初始化
 
 ```jsx
-import {  useReducer } from 'react'
-const state = 0
+import { useReducer } from "react";
+const state = 0;
 function reducer(state, action) {
   switch (action.type) {
-    case 'add':
-      return state + action.data
-    case 'minus':
-      return state - action.data
+    case "add":
+      return state + action.data;
+    case "minus":
+      return state - action.data;
   }
 }
 export default function SetTimeout() {
-  const [count, dispatch] = useReducer(reducer,state)
-  function add(){
-    dispatch({type: 'add', data: 1})
+  const [count, dispatch] = useReducer(reducer, state);
+  function add() {
+    dispatch({ type: "add", data: 1 });
   }
-  function minus(){
-    dispatch({type: 'minus', data: 1})
+  function minus() {
+    dispatch({ type: "minus", data: 1 });
   }
   return (
     <div>
@@ -446,15 +469,83 @@ export default function SetTimeout() {
 
 ### 自定义 hook 函数
 
-## 上下文
+## Context
 
-### createContext()
+- createContext() 创建 Context 对象
 
-- 创建上下文对象
+```js
+import { createContext } from "react";
+export const Context = createContext();
+export const Provider = Context.Provider;
+export const Provider = Context.Provider;
+```
+
+- 使用
+
+```js
+import FnContext from "./components/fnContext";
+import ClassContext from "./components/classContext";
+import { Context, Provider } from "./hook";
+export default function Home() {
+  const data = "home组件的数据";
+  return (
+    <div>
+      <p>Context应用：</p>
+      <Provider value={data}>
+        函数组件接收：
+        <FnContext />
+      </Provider>
+      <hr />
+      <Provider value={data}>
+        类组件接收：
+        <ClassContext />
+      </Provider>
+    </div>
+  );
+}
+```
 
 ### useContext
 
-## ant-d
+- 必须使用函数组件接收
 
 ```jsx
+import { useContext } from "react";
+import { Context } from "../../hook/context";
+export default function UseContext() {
+  const data = useContext(Context);
+  return <div>useContext接收数据----{data}</div>;
+}
+```
+
+### contextType
+
+- 必须使用类组件接收
+
+```js
+import { Component } from "react";
+import { Context } from '../../hook/context'
+export default class UseContext extends Component {
+  static contextType = Context
+  render() {
+    return (
+      <div>
+        contextType接收数据 ---- {this.context}
+      </div>
+    )
+  }
+}
+```
+
+### Consumer
+
+```js
+import { Consumer } from "../../hook/context";
+export default function ContextConsumer() {
+  return (
+    <div>
+      <Consumer>{(data) => <span>Consumer接收数据 ----{data}</span>}</Consumer>
+    </div>
+  );
+}
 ```
