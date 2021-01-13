@@ -3,7 +3,6 @@ node_modules
 ./demo/react/demo/node_modules
 ./demo/vue/demo-1/node_modules
 ./demo/webpack/node_modules
-./pdf
 .DS_Store
 dist
 dist-ssr
