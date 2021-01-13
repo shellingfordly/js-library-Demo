@@ -6,6 +6,8 @@ dist-ssr
 *.local
 .pnp
 .pnp.js
+*.pdf
+*.doc
 
 # testing
 coverage
@@ -23,3 +25,4 @@ build
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
