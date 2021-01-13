@@ -25,7 +25,7 @@
         - limit 限制大小
         - name 打包文件的 name
 
-// webpack.config.js
+webpack.config.js
 
 ```js
 module.exports = {
@@ -236,20 +236,233 @@ app.listen(3000, () => {
 });
 ```
 
-## 打包vue
+### clean-webpack-plugin
+
+- 每次打包前清空打包文件
+
+```js
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+module.exports = {
+  plugins: [new CleanWebpackPlugin()],
+};
+```
+
+### webpack.DefinePlugin
+
+- 给入口文件注入变量
+
+```js
+const DEV = "development";
+const NEV = { data: "webpack data" };
+
+const webpack = require("webpack");
+module.exports = {
+  plugins: [
+    new webpack.DefinePlugin({
+      DEV: "DEV", // "" 中引用的是变量
+      NEV: "NEV",
+    }),
+  ],
+};
+```
+
+## 打包 vue
 
 - 配置文件
 
 ```js
-module.exports = {
-  resolve: {
-    alias: { // 配置引入包的路径
-      // 引入vue包时导入有template complier的包
-      'vue$': 'vue/dist/vue.esm.js'
-    }
-  }
-}
+const path = require("path");
 
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+// 解析vue文件的插件
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+
+module.exports = {
+  mode: "production",
+  entry: "./src/index.js",
+  output: {
+    filename: "./js/main.js",
+    path: path.join(__dirname, "./dist"),
+  },
+  module: {
+    rules: [
+      {
+        // 配置解析vue的loader
+        test: /\.vue$/,
+        use: ["vue-loader"],
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "./build/template/template.html",
+    }),
+    new VueLoaderPlugin(), // 使用插件
+  ],
+  resolve: {
+    alias: {
+      // 配置引入包的路径
+      // 引入vue包时导入有template complier的包
+      vue$: "vue/dist/vue.esm.js",
+    },
+  },
+};
+```
+
+## 不同环境配置文件
+
+- webpack.base.js 基础配置
+- webpack.dev.js 开发环境配置
+- webpack.pro.js 生产环境配置
+
+```js
+const proConfig = {
+  mode: "production",
+};
+const devConfig = {
+  mode: "development",
+  devServer: {},
+};
+```
+
+- webpack-merge 合并配置
+
+```js
+const merge = require("webpack-merge");
+const baseConfig = require("./webpack.base");
+const devConfig = {
+  mode: "development",
+  devServer: {},
+};
+module.exports = merge(baseConfig, devConfig);
+```
+
+- package.json
+
+```json
+{
+  "build": "webpack --config webpack.pro.js",
+  "dev": "webpack-dev-server --config webpack.dev.js"
+}
+```
+
+## code spliting
+
+- 将第三方模块包和义务代码分离
+- webpack 不会分割同步代码，但会默认分割异步代码
+
+```js
+module.exports = {
+  optimizition: {
+    // 优化
+    splitChunks: {
+      // 分割代码
+      chunks: "all", // 分割规则
+    },
+  },
+};
+```
+
+- 异步引入第三方包，第三方包一般同步引入
+- 思考：首屏优化，异步引入 js 文件
+
+```js
+const axios = () => import("axios");
+import("axios");
+```
+
+- 使用 async await 导入的包会被打包到另一个 js 文件，算异步引入
+- 思考：使用 await 算异步引入，可以做优化
+- 使用 require 为同步引入
+
+```js
+// 同步
+import clickSync from "./js/click";
+// 异步
+const clickPromise = import("./js/click");
+const { default: clickFn } = await clickPromise;
+// 同步
+const { default: clickRequire } = require("./js/click");
+```
+
+## loader
+
+```js
+module.exports = {
+  resolveLoader: {
+    // 解析loader时的路径，在所有路径中寻找loader
+    modules: ["node_modules", path.join(__dirname, "loaders")],
+  },
+};
+```
+
+### loader 实现
+
+- loaderUtils -- loader 的工具包
+- babel-loader
+
+```js
+const babel = require("@babel/core");
+const loaderUtils = require("loader-utils");
+function loader(source) {
+  // source 为打包js的源代码
+  // 告诉loader将会异步执行代码 并通过callBack返回数据
+  const callBack = this.async();
+  // presets 预制：解析代码的babel的核心包
+  const { presets } = loaderUtils.getOptions(this);
+  // transform 解析
+  babel.transform(source, { presets }, (err, result) => {
+    // 解析结束执行回调函数
+    callBack(err, result);
+  });
+}
+```
+
+- file-loader
+  - loader 默认解析 js 文件
+  - 当其他文件时(source)源码会乱码
+  - loader.raw 解析二进制文件
+
+```js
+const loaderUtils = require("loader-utils");
+
+function loader(source) {
+  // 生成图片的名字
+  const filename = loaderUtils.interpolateName(this, "[hash].[ext]", {
+    content: source,
+  });
+  // 生成图片
+  this.emitFile(filename, source);
+  return `module.exports=${JSON.stringify(filename)}`;
+}
+loader.raw = true;
+module.exports = loader
+```
+
+- url-loader
+
+```js
+const loaderUtils = require("loader-utils");
+const path = require('path')
+function loader(source) {
+  // const 
+  const { limit } = loaderUtils.getOptions('this')
+  // path.extname 获取后缀名
+  // this.resourcePath 文件绝对路径
+  const extname = path.extname(this.resourcePath).slice(1)
+  let result = ''
+  if(source.length < limit) {
+    const base64 = source.toString('base64')
+    result = `module.exports = "data:image/${extname};base64,${base64}"`
+  } else {
+    // 大于limit文件大小限制时使用file-loader处理文件
+    result = require('file-loader').call(this, source)
+  }
+  return result
+}
+loader.raw = true;
+module.exports = loader
 ```
 
 ## 问题
