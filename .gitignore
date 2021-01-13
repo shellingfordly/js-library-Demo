@@ -1,5 +1,8 @@
 # dependencies
 node_modules
+demo/react/demo/node_modules
+demo/vue/demo-1/node_modules
+demo/webpack/node_modules
 .DS_Store
 dist
 dist-ssr
