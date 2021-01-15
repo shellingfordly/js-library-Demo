@@ -1,0 +1,233 @@
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+}
+
+:-webkit-autofill {
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+// Background color setting in full screen state in each browser
+::backdrop,
+html,
+*:fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
+  z-index: 1;
+  background-color: #fff !important;
+}
+
+html {
+  overflow: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: visible !important;
+  overflow-x: hidden !important;
+}
+
+// remove the clear button of a text input control in IE10+
+input::-ms-clear,
+input::-ms-reveal {
+  display: none;
+}
+
+body {
+  font-family: 'BlinkMacSystemFont,segoe ui,Microsoft YaHei,Arial,sans-serif,Helvetica Neue,Helvetica,Pingfang SC,Hiragino Sans GB,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.428571429; // 20/14
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: left; // Fallback for where `start` is not supported
+  text-align: start;
+  text-decoration: none;
+  text-size-adjust: 100%;
+  text-shadow: none;
+  text-transform: none;
+  word-break: normal;
+  word-wrap: normal;
+  white-space: normal;
+  line-break: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+img {
+  vertical-align: top;
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+i,
+em {
+  font-style: normal;
+}
+
+button,
+div:focus {
+  outline: none !important;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: transparent; // remove the gray background on active links in IE 10.
+  outline: none;
+  transition: color 0.3s;
+  -webkit-text-decoration-skip: objects; // remove gaps in links underline in iOS 8+ and Safari 8+.
+
+  &:active,
+  &:hover {
+    text-decoration: none;
+    outline: 0;
+  }
+
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  vertical-align: baseline !important;
+}
+
+.home {
+  height: 100%;
+  background: url(https://static.cosmeapp.com/bbs/upload/1610454093639);
+
+  .title {
+    padding: 100px 0;
+    font-size: 40px;
+    font-weight: bold;
+    color: #303133;
+    text-align: center;
+    vertical-align: top;
+
+    .title-logo {
+      vertical-align: middle;
+      background: #293455;
+    }
+
+    span {
+      color: #293455;
+      vertical-align: middle;
+    }
+  }
+
+  .content {
+    .card-ul {
+      display: flex;
+      justify-content: space-around;
+      width: 1200px;
+      margin: auto;
+
+      .card-li {
+        position: relative;
+        top: 0;
+        width: 360px;
+        height: 420px;
+        padding-top: 57px;
+        padding-left: 32px;
+        text-align: left;
+        cursor: pointer;
+        background-color: #293455;
+        background-size: contain;
+        border-radius: 5px;
+        transition: all 0.3s linear;
+        list-style: none;
+
+        &:hover {
+          top: -20px;
+        }
+
+        a {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+
+        img {
+          position: absolute;
+          right: 10px;
+          bottom: 10px;
+          width: 120px;
+        }
+
+        .li-title {
+          font-size: 26px;
+          line-height: 30px;
+          color: #fff;
+        }
+
+        .li-title-en {
+          margin-top: 1.75926vh;
+          font-family: Muli-Regular;
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 14px;
+          color: #fff;
+        }
+
+        .line {
+          width: 2.70833333vw;
+          height: 0.27777778vh;
+          margin-top: 2.31481vh;
+          background: #fff;
+        }
+
+        .notes {
+          width: 275px;
+          margin-top: 4.53704vh;
+          margin-right: 2.60417vw;
+          overflow: hidden;
+          font-family: PingFangSC-Light;
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 28px;
+          color: #fff;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          opacity: 0.5;
+
+          p {
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
