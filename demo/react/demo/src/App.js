@@ -9,6 +9,7 @@ import User from './views/User'
 import Login from './views/Login'
 import store from './store'
 import { userLogout } from './store/actions'
+import Hook from './views/HookComponent'
 
 export default class App extends Component {
 
@@ -16,7 +17,7 @@ export default class App extends Component {
     isShow: false
   }
 
-  componentDidMount(){
+  componentDidMount() {
     store.subscribe(() => {
       const data = store.getState()
       this.setState({ isShow: data.isLogin })
@@ -27,18 +28,33 @@ export default class App extends Component {
     store.dispatch(userLogout())
   }
 
+
   render() {
-    const { isShow } = this.state
 
     return (
       <div className="app">
         <div className="nav">
-          <NavLink className={isShow ? 'show' : 'hide'} to='/home'>首页</NavLink>
-          <NavLink className={isShow ? 'show' : 'hide'} to='/user'>用户</NavLink>
-          <NavLink className={isShow ? 'show' : 'hide'} to='/about'>关于我</NavLink>
-          <NavLink className={isShow ? 'show' : 'hide'} to='/register'>注册</NavLink>
-          <NavLink className={!isShow ? 'show' : 'hide'} to='/login'>登录</NavLink>
-          <NavLink className={isShow ? 'show' : 'hide'} to='/login' onClick={this.logout}>登出</NavLink>
+          <ul>
+            <li>
+              <NavLink to='/home'>首页</NavLink>
+            </li>
+            <li>
+          <NavLink to='/user'>用户</NavLink>
+            </li>
+            <li>
+          <NavLink to='/about'>关于我</NavLink>
+            </li>
+            <li>
+          <NavLink to='/register'>注册</NavLink>
+            </li>
+            <li>
+          <NavLink to='/login'>登录</NavLink>
+            </li>
+            <li>
+          <NavLink to='/hook'>Hook应用</NavLink>
+            </li>
+          </ul>
+
         </div>
         <div className="content">
           <Switch>
@@ -47,6 +63,7 @@ export default class App extends Component {
             <Route path="/about" component={About}></Route>
             <Route path="/register" component={Register}></Route>
             <Route path="/login" component={Login}></Route>
+            <Route path="/hook" component={Hook}></Route>
             <Redirect to="/login"></Redirect>
           </Switch>
         </div>

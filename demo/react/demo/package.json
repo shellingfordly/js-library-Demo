@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.12.12",
     "sass": "^1.32.0",
     "sass-loader": "^10.1.0"
   }

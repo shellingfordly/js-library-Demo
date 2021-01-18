@@ -1,11 +1,17 @@
 .app {
-  width: 80%;
+  // width: 80%;
   margin: auto;
+  display: flex;
+
   .nav {
-    display: flex;
-    justify-content: space-around;
+    width: 120px;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+
+    a {
+      display: inline;
+      width: 100%;
+    }
 
     .active {
       color: red;
@@ -13,9 +19,10 @@
   }
 
   .content {
+    flex:1;
     padding: 10px;
-    display: flex;
-    justify-content: space-around;
+    // display: flex;
+    // justify-content: space-around;
 
     .login {
       .label {
@@ -39,4 +46,9 @@
 }
 .hide {
   display: none;
+}
+
+.b-line {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
 }
