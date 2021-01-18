@@ -1,0 +1,49 @@
+.app {
+  // width: 80%;
+  margin: auto;
+  display: flex;
+
+  .nav {
+    width: 120px;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+
+    a {
+      display: inline;
+      width: 100%;
+    }
+
+    .active {
+      color: red;
+    }
+  }
+
+  .content {
+    flex:1;
+    padding: 10px;
+    // display: flex;
+    // justify-content: space-around;
+
+    .login {
+      .label {
+        display: inline-block;
+        width: 70px;
+      }
+      .btn {
+        padding-top: 10px;
+        text-align: center;
+
+        button:first-child {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
