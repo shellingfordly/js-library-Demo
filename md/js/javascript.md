@@ -17,7 +17,7 @@
 ### 创建对象
 
 - 工厂模式
-- 构造函数模式S
+- 构造函数模式
 
 ### 构造函数模式
 
@@ -36,3 +36,4 @@ console.log(person1.constructor === Person); // true
 ## 问题
 
 - 对象的 set 属性需要返回值吗
+- \_isAMomentObject?
