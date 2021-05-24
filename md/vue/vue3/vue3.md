@@ -49,7 +49,7 @@
 ```ts
 export default defineComponent({
   // 接收
-  props: ['data'],
+  props: ["data"],
   async setup(props) {
     console.log(props.data);
     return {};
@@ -82,8 +82,7 @@ export default defineComponent({
 <!-- Parent.vue -->
 <template>
   <Son>
-    <template #left>
-    </template>
+    <template #left> </template>
   </Son>
 </template>
 ```
@@ -91,8 +90,8 @@ export default defineComponent({
 ## 自定义组件
 
 - ~~不需要对自组件进行绑定也可以触发事件~~
-- ~~给Select组件绑定的v-model:value和@change都不要代理~~
-- 当Select组件的根组件直接是a-select时，可以不需要代理，属性将默认传入a-select组件
+- ~~给 Select 组件绑定的 v-model:value 和@change 都不要代理~~
+- 当 Select 组件的根组件直接是 a-select 时，可以不需要代理，属性将默认传入 a-select 组件
 
 ```vue
 <!-- Parent.vue -->
@@ -117,14 +116,14 @@ export default defineComponent({
 ## v-model
 
 - 可以指定接受的变量名
-- 可以绑定多个v-model
+- 可以绑定多个 v-model
 
 ```vue
 <!-- Son.vue -->
 <template>
   <!-- 接受对应的变量 -->
-  <input type="text" :value="value">
-  <input type="text" :value="msg">
+  <input type="text" :value="value" />
+  <input type="text" :value="msg" />
 </template>
 
 <!-- Parent.vue -->
@@ -146,7 +145,7 @@ setup(props, ctx){
 
 ### input
 
-- 给input绑定的值必须是reactive创建响应式对象的属性，ref创建字符串将无法输入
+- 给 input 绑定的值必须是 reactive 创建响应式对象的属性，ref 创建字符串将无法输入
 
 ### 双向数据绑定
 
@@ -154,11 +153,11 @@ setup(props, ctx){
 
 ```js
 const data = reactive({
-  a: 1
-})
+  a: 1,
+});
 data = {
-  b: 2
-}
+  b: 2,
+};
 ```
 
 ### img src
@@ -167,9 +166,9 @@ data = {
 
 ```html
 <!-- correct -->
-<img src="http://xxx">
+<img src="http://xxx" />
 <!-- An error occurred while img src without protocol (http or https)  -->
-<img src="//xxx">
+<img src="//xxx" />
 ```
 
 ## TS
@@ -181,9 +180,9 @@ data = {
 ```ts
 const obj = {
   a: 1,
-  b: 2
-}
-const obj1: typeof obj = {} // 类型检测会报错
+  b: 2,
+};
+const obj1: typeof obj = {}; // 类型检测会报错
 ```
 
 - 获取没个函数返回的类型
@@ -200,7 +199,7 @@ const obj: ReturnType<typeof fn> = {
 };
 ```
 
-- Object通过变量获取
+- Object 通过变量获取
 
 ```ts
 interface {
@@ -216,4 +215,17 @@ declare namesepace API {
     [key: string]: any
   }
 }
+```
+
+## key
+
+- 用于强制替换元素/组件而不是重复使用它
+  - 完整地触发组件的生命周期钩子
+  - 触发过渡
+- 当 text 发生改变时，\<span> 总是会被替换而不是被修改，因此会触发过渡
+
+```html
+<transition>
+  <span :key="text">{{ text }}</span>
+</transition>
 ```
