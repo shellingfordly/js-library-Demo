@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+    type="text/css">
+  <style>
+    .map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+  <title>OpenLayers example</title>
+</head>
+
+<body>
+  <h2>My Map</h2>
+  <div id="map" class="map"></div>
+  <script type="text/javascript">
+    (function initMap() {
+      createMap()
+      createControl()
+
+    })()
+
+
+
+    function createControl() {
+      const myElement = document.createElement('div')
+      myElement.style.width = '100px'
+      myElement.style.height = '100px'
+      myElement.style.backgroundColor = 'red'
+
+      // const myControl = new ol({ element: myElement });
+
+
+    }
+
+    async function createMap() {
+      const position = await getPosition()
+      const map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([position.lon, position.lat]),
+          zoom: 4,
+          extend: [73.66, 3.86, 135.05, 53.55],
+          controls: ol.control.Control([new ol.control.ZoomSlider()]),
+        })
+      });
+
+      console.log(ol, ol.control)
+    }
+
+    function getPosition() {
+      const position = {
+        lat: 37.41,
+        lon: 8.82
+      }
+      return new Promise((res) => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          position.lon = position.coords.longitude // 经度
+          position.lat = position.coords.latitude // 维度
+          res(position)
+        });
+      })
+    }
+  </script>
+</body>
+
+</html>

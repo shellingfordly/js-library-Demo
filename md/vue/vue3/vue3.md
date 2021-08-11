@@ -229,3 +229,30 @@ declare namesepace API {
   <span :key="text">{{ text }}</span>
 </transition>
 ```
+
+## 一些特性
+
+### Attribute 继承
+
+props 和 emits property 中未包含的所有属性将会自动绑定到自组件的根节点上
+
+- 可以使用 inheritAttrs: false 禁用
+- 多个根节点组件不会自动绑定，将会发出警告，使用 v-bind 绑定后则清楚警告
+
+### teleport
+
+将一个 DOM 挂载到另一个 DOM 上，多个 \<teleport\> 组件可以将其内容挂载到同一个目标元素
+
+```html
+<teleport to="#modals">
+  <div>A</div>
+</teleport>
+<teleport to="#modals">
+  <div>B</div>
+</teleport>
+<!-- result-->
+<div id="modals">
+  <div>A</div>
+  <div>B</div>
+</div>
+```

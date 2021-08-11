@@ -194,4 +194,131 @@ declare function f(x: number): string;
 type Func = () => void;
 type Func = (xx: any) => void;
 type Func = (xx: any) => any;
+
+type Func = {
+  (): any
+}
+
+type XXX = {
+  a(): string;
+  b: () => string;
+}
+```
+
+
+## Utility Types
+
+- Partial\<Type>
+- Requi0red\<Type>
+- Readonly\<Type>
+- Record\<Keys,Type> 记录
+- Pick\<Type, Keys> 挑选
+- Omit\<Type, Keys> 忽略
+- Exclude\<Type, ExcludedUnion> 排除
+- Extract\<Type, Union> 提取
+- NonNullable\<Type> 排除null和undefined
+- Parameters\<Type> 参数面板
+- ConstructorParameters\<Type> 构造器参数
+- ReturnType\<Type> 返回值类型
+- InstanceType\<Type> 实例类型
+- ThisParameterType\<Type> 
+- OmitThisParameter\<Type>
+- ThisType\<Type>
+
+
+### Record\<Keys,Type>
+
+构建一个对象类型，键名为keys，键值为Type
+
+
+### Pick\<Type,Keys>
+
+从Type中选一组属性键构成一个类型
+
+
+
+
+## & |
+
+- &
+- |
+
+
+## 几个关键字
+
+1. infer
+2. typeof
+3. keyof
+    - 获取某对象的键名
+4. in
+
+
+## 不理解
+
+### readonly
+
+```ts
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+// 可以理解为
+type Mutable<Obj> = {
+  -readonly [Obj in keyof Key]: Obj[Key];
+};
+
+type Readonly<T> = { readonly [P in keyof T]: T[P] };
+
+```
+
+
+### ReturnType
+
+1. 得到一个函数的返回值类型
+
+```ts
+type ReturnType<T extends (...args: any[]) => any> = T extends (
+  ...args: any[]
+) => infer R
+  ? R
+  : any;
+```
+
+2. 用 ReturnType 获取到 Func 的返回值类型
+
+```ts
+type Func = (value: number) => string;
+
+// 拿到某个函数返回指的类型
+const foo: ReturnType<Func> = "1";
+```
+
+- 例子
+
+```ts
+function fn(){
+  return {
+    name: ''
+  }
+}
+
+const obj: ReturnType<typeof fn> = {
+  name: ''
+}
+```
+
+
+### 接口定义
+
+```ts
+interface Seal {
+  name: string;
+  url: string;
+}
+interface API {
+  "/user": { name: string; age: number; phone: string };
+  "/seals": { seal: Seal[] };
+}
+const api = <URL extends keyof API>(url: URL): Promise<API[URL]> => {
+  return fetch(url).then((res) => res.json());
+};
 ```
