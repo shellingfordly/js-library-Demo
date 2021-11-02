@@ -224,7 +224,7 @@ replace 跳转路径是替换当前的路径，上一次的路径直接被覆盖
   - applyMiddleware 使用中间件
   - thunk 异步处理事件
 
-```js 
+```js
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducer from "./reducer";
@@ -678,7 +678,7 @@ export default class OptimizationComponent extends PureComponent {
   };
   shouldComponentUpdate(nextProps, nextState) {
     // 新的props，新的state
-    return nextState.count !== this.state.count;fff
+    return nextState.count !== this.state.count;
   }
   render() {
     console.log("render");
