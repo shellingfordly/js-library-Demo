@@ -1,0 +1,33 @@
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+  console.log(axios);
+
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+
+  axios
+    .get("https://www.baidu.com", {
+      cancelToken: source.token,
+    })
+    .then((result) => {
+      console.log("result", result);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
+
+  source.cancel("中断请求");
+
+  const CancelToken = axios.CancelToken;
+  let cancel;
+
+  axios.get("/user/12345", {
+    cancelToken: new CancelToken(function executor(c) {
+      // executor 函数接收一个 cancel 函数作为参数
+      cancel = c;
+    }),
+  });
+
+  // 取消请求
+  cancel("Operation canceled by the user.");
+</script>

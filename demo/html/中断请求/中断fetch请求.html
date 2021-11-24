@@ -1,0 +1,34 @@
+<body>
+  <div class="download">download</div>
+  <div class="abort">abort</div>
+</body>
+
+<script>
+  // 拦截请求
+
+  const controller = new AbortController();
+  let signal = controller.signal;
+  console.log("signal 的初始状态: ", signal);
+
+  const downloadBtn = document.querySelector(".download");
+  const abortBtn = document.querySelector(".abort");
+
+  downloadBtn.addEventListener("click", fetchVideo);
+
+  abortBtn.addEventListener("click", function () {
+    controller.abort();
+    console.log("signal 的中止状态: ", signal);
+  });
+
+  function fetchVideo() {
+    const url = "https://www.baidu.com";
+    //...
+    fetch(url, { signal })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (e) {
+        console.log(e);
+      });
+  }
+</script>
