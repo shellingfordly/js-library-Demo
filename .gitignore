@@ -1,8 +1,8 @@
 # dependencies
 node_modules
-./demo/react/demo/node_modules
-./demo/vue/demo-1/node_modules
-./demo/webpack/node_modules
+./react/demo/node_modules
+./vue/demo-1/node_modules
+./webpack/node_modules
 .DS_Store
 dist
 dist-ssr
@@ -11,21 +11,3 @@ dist-ssr
 .pnp.js
 *.pdf
 *.doc
-
-# testing
-coverage
-
-# production
-build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
