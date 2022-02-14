@@ -1,0 +1,67 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
+    width: 1200px;
+    margin: auto;
+  }
+
+  .tools {
+    padding: 10px 0;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="tools">
+      <canvas width="200" height="50" id="colors" style="border: 1px solid #ccc;"></canvas>
+    </div>
+    <canvas width="1200" height="600" id="palette" style="border: 1px solid #ccc;"></canvas>
+  </div>
+</body>
+
+<script src="https://unpkg.com/fabric@4.6.0/dist/fabric.min.js"></script>
+
+<script>
+  const colorsCanvas = new fabric.Canvas('colors') // 这里传入的是canvas的id
+  let circle = new fabric.Rect({
+    width: 200,
+    height: 50
+  })
+
+  circle.lockMovementY = true
+  circle.lockMovementX = true
+
+  let line = new fabric.Line([
+    100, 0, // 起始点坐标
+    100, 100 // 结束点坐标
+  ], {
+    stroke: '#000', // 笔触颜色
+  })
+  line.lockMovementY = true
+  let gradient = new fabric.Gradient({
+    type: 'linear', // linear or radial
+    gradientUnits: 'pixels', // pixels or pencentage 像素 或者 百分比
+    coords: { x1: 0, y1: 0, x2: circle.width, y2: 0 }, // 至少2个坐标对（x1，y1和x2，y2）将定义渐变在对象上的扩展方式
+    colorStops: [ // 定义渐变颜色的数组
+      { offset: 0, color: 'red' },
+      { offset: 0.2, color: 'orange' },
+      { offset: 0.4, color: 'yellow' },
+      { offset: 0.6, color: 'green' },
+      { offset: 0.8, color: 'blue' },
+      { offset: 1, color: 'purple' },
+    ]
+  })
+  circle.set('fill', gradient);
+  colorsCanvas.add(circle)
+  colorsCanvas.add(line)
+</script>
