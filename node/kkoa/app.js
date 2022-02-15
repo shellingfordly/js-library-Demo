@@ -4,14 +4,12 @@ const KKoa = require("./index");
 const app = new KKoa();
 
 app.use(async (ctx, next) => {
-  console.log(1);
-  ctx.body = "<h1>this is koa!</h1>";
   await next();
-  console.log(11);
+  ctx.body = "<h1>This is koa!</h1>";
 });
+
 app.use(async (ctx, next) => {
-  console.log(2);
-  ctx.body = "<h1>Hello, koa2!</h1>";
+  ctx.body = "<h1>Hello!</h1>";
 });
 
 app.listen(3000, () => {
