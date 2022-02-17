@@ -1,5 +1,4 @@
 const KKoa = require("./index");
-// const KKoa = require("koa");
 
 const app = new KKoa();
 
