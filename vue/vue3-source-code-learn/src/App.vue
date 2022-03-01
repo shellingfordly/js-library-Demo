@@ -1,10 +1,10 @@
 <script setup>
 // import HelloWorld from "./components/HelloWorld.vue";
-import Proxy from "./components/Proxy.vue";
+import FormPage from "./components/FormPage.vue";
 </script>
 
 <template>
-  <Proxy />
+  <FormPage />
 </template>
 
 <style>
