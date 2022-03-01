@@ -1,13 +1,24 @@
-import {Component} from 'react'
+import { useEffect } from "react";
+import { Form, FormItem, useForm } from "../../form";
 
-import RcForm from './rc-form'
+export default function FormPage() {
+  const [form] = useForm();
 
-@RcForm
- class Form extends Component {
-  render(){
-    return (
-      <div>Form</div>
-    )
-  }
+  useEffect(() => {
+    form.setFormValue({
+      username: "username",
+      password: "password",
+    });
+  }, [form]);
+
+  return (
+    <Form form={form}>
+      <FormItem name="username">
+        <input />
+      </FormItem>
+      <FormItem name="password">
+        <input />
+      </FormItem>
+    </Form>
+  );
 }
-export default Form
