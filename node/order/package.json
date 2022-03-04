@@ -1,0 +1,11 @@
+{
+  "name": "order",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "rm": "node ./rm.js",
+    "mv": "node ./mv.js",
+    "cp": "node ./cp.js"
+  }
+}

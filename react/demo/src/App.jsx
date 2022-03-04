@@ -10,6 +10,7 @@ import store from "./store";
 import { userLogout } from "./store/actions";
 import Hook from "./views/HookComponent";
 import FormPage from "./views/form";
+import ReactApiUsePage from "./views/api";
 
 export default class App extends Component {
   state = {
@@ -53,6 +54,9 @@ export default class App extends Component {
             <li>
               <NavLink to="/form">FormPage</NavLink>
             </li>
+            <li>
+              <NavLink to="/api">React API 使用</NavLink>
+            </li>
           </ul>
         </div>
         <div className="content">
@@ -64,6 +68,7 @@ export default class App extends Component {
             <Route path="/login" component={Login}></Route>
             <Route path="/hook" component={Hook}></Route>
             <Route path="/form" component={FormPage}></Route>
+            <Route path="/api" component={ReactApiUsePage}></Route>
             <Redirect to="/login"></Redirect>
           </Switch>
         </div>

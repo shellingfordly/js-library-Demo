@@ -4,12 +4,12 @@ import { Form, FormItem, useForm } from "../../form";
 export default function FormPage() {
   const [form] = useForm();
 
-  useEffect(() => {
-    form.setFormValue({
-      username: "username",
-      password: "password",
-    });
-  }, [form]);
+  // useEffect(() => {
+  //   form.setFormValue({
+  //     username: "username",
+  //     password: "password",
+  //   });
+  // }, [form]);
 
   return (
     <Form form={form}>
