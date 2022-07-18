@@ -11,7 +11,6 @@ export default function UseMemoPage() {
     b: 2,
     c: 3,
   });
-
   const [arr, setArr] = useSetState([{ id: 1 }, { id: 2 }]);
 
   useEffect(() => {
@@ -26,9 +25,7 @@ export default function UseMemoPage() {
         {count} - {doubleCount}
         <button onClick={() => setCount((v) => v + 1)}>add</button>
       </div>
-      <div>
-        {JSON.stringify(obj)}
-      </div>
+      <div>{JSON.stringify(obj)}</div>
       <div>
         {arr.map((item) => (
           <span key={item.id}> id:{item.id}</span>
