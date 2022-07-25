@@ -1,0 +1,17 @@
+<script>
+  // console.log("navigator", navigator);
+  // console.log('navigator.appCodeName', navigator.appCodeName);
+  // console.log('navigator.appName', navigator.appName);
+  // console.log('navigator.appVersion', navigator.appVersion);
+  // console.log('navigator.connection', navigator.connection);
+
+
+
+  navigator.geolocation.getCurrentPosition((pos) => {
+    console.log('position', pos);
+  }, (err) => {
+    console.log('err === ', err);
+
+  })
+
+</script>

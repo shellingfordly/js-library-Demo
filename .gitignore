@@ -11,3 +11,4 @@ dist-ssr
 .pnp.js
 *.pdf
 *.doc
+**/node_modules
