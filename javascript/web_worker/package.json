@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "register-service-worker": "^1.7.2"
   }
 }

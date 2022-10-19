@@ -7,7 +7,7 @@ async function init() {
   console.log("main");
 }
 
-var worker = new Worker("./src/worker.js");
+var worker = new Worker("./src/worker-test/worker.js");
 
 worker.onmessage = function (event) {
   console.log("Received message " + event.data);
