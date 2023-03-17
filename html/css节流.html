@@ -1,0 +1,54 @@
+<style>
+  #btn1 {
+    animation: throttle 2s step-end forwards;
+  }
+  #btn1:active {
+    animation: none;
+  }
+  @keyframes throttle {
+    from {
+      color: red;
+      pointer-events: none;
+    }
+    to {
+      color: green;
+      pointer-events: all;
+    }
+  }
+
+  #btn2 {
+    opacity: 0.99;
+    transition: opacity 2s;
+  }
+  #btn2:not(:disabled):active {
+    opacity: 1;
+    transition: 0s;
+  }
+</style>
+
+<body>
+  <button id="btn">正常 btn</button>
+  <button id="btn1">pointer-events 节流 btn</button>
+  <button id="btn2">disabled 节流 btn</button>
+
+  <script>
+    btn.addEventListener("click", () => {
+      console.log("current click");
+    });
+    btn1.addEventListener("click", () => {
+      console.log("throttle click");
+    });
+    btn2.addEventListener("click", () => {
+      console.log("disabled click");
+    });
+
+    // 过渡开始
+    document.addEventListener("transitionstart", function (ev) {
+      ev.target.disabled = true;
+    });
+    // 过渡结束
+    document.addEventListener("transitionend", function (ev) {
+      ev.target.disabled = false;
+    });
+  </script>
+</body>
